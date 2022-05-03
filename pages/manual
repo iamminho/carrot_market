@@ -1,0 +1,4 @@
+nextjs를 실행시켜 브라우저에 띄우고 싶다! -> npm run dev
+planet scale을 데이터베이스와 연결시키고 싶다. -> pscale connect carrot-market
+prisma studio를 실행하고 싶다. -> npx prisma studio
+만든 데이터를 prisma를 통해 데이터베이스로 보내주고 싶다.! -> npx prisma db push
