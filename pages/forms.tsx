@@ -1,23 +1,36 @@
-import { useForm } from 'react-hook-form'
+import { FieldErrors, useForm } from 'react-hook-form'
+
+interface LoginForm {
+    username: string;
+    password: string;
+    email:string;
+}
 
 export default function Forms() {
-    const { register, handleSubmit } = useForm();
-    const onValid = () => {
+    const { register, handleSubmit } = useForm<LoginForm>();
+    const onValid = (data: LoginForm) => {
         console.log("valid");
     }
+    const onInvalid = (errors: FieldErrors) => {
+        console.log(errors);
+    }
     return (        
-        <form onSubmit={handleSubmit(onValid)}>
+        <form onSubmit={handleSubmit(onValid, onInvalid)}>
             <input
                 {...register("username", {
-                    required: true
+                    required: "username is required", //error message
+                    minLength: {
+                        value: 5,
+                        message: "Username's length should be 5 at least."
+                    }
                 })}
                 type="text"
                 placeholder='Username'
                 
             />
-            <input
+            <input 
                 {...register("email", {
-                    required: true
+                    required: "email is required"
                 })}
                 type="text"
                 placeholder='Email'
@@ -25,7 +38,7 @@ export default function Forms() {
             />     
             <input
                 {...register("password", {
-                    required: true
+                    required: "password is required"
                 })}
                 type="number"
                 placeholder='Password'
