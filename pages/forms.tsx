@@ -7,7 +7,9 @@ interface LoginForm {
 }
 
 export default function Forms() {
-    const { register, handleSubmit } = useForm<LoginForm>();
+    const { register, handleSubmit, formState: {errors}, } = useForm<LoginForm>({
+        mode: "onChange", //mode의 default는 onSubmit이다.
+    });
     const onValid = (data: LoginForm) => {
         console.log("valid");
     }
@@ -28,14 +30,19 @@ export default function Forms() {
                 placeholder='Username'
                 
             />
+            {errors.username?.message}
             <input 
                 {...register("email", {
-                    required: "email is required"
+                    required: "email is required",
+                    validate: {
+                        notGmail: (value) => !value.includes("@gmail.com") || "You cannot use Gmail, please another use Eamil",                       
+                    },
                 })}
                 type="text"
                 placeholder='Email'
                 
-            />     
+            />   
+            {errors.email?.message}
             <input
                 {...register("password", {
                     required: "password is required"
@@ -44,6 +51,7 @@ export default function Forms() {
                 placeholder='Password'
                
             />
+            {errors.password?.message}
             <input type="submit" value="Create Account" />                   
         </form>
         
