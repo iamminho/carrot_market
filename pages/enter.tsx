@@ -14,15 +14,13 @@ function cls (...classnames: string[]) {
     return classnames.join(" ");
 }
 const Enter: NextPage = () => {
-  const [enter, {loading, data, error}] = useMutation("/api/users/enter");
-  console.log(loading, data, error);
+  const [enter, {loading, data, error}] = useMutation("/api/users/enter");  
   const [submitting, setSubmitting] = useState(false);
   const { register, reset, handleSubmit} = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {reset(); setMethod("email")};
   const onPhoneClick = () => {reset(); setMethod("phone")};  
   const onValid = (data: EnterForm) => {
-    console.log("enter",enter);
     enter(data);
     // setSubmitting(true);
     // fetch("/api/users/enter", {
