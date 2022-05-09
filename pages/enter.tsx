@@ -13,12 +13,22 @@ function cls (...classnames: string[]) {
     return classnames.join(" ");
 }
 const Enter: NextPage = () => {
+  const [submitting, setSubmitting] = useState(false);
   const { register, reset, handleSubmit} = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {reset(); setMethod("email")};
-  const onPhoneClick = () => {reset(); setMethod("phone")};
+  const onPhoneClick = () => {reset(); setMethod("phone")};  
   const onValid = (data: EnterForm) => {
-    console.log(data);
+    setSubmitting(true);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type":"application/json"
+      },
+    }).then(() => {
+      setSubmitting(false);
+    }); 
   };
   return (
     <div className="mt-16 px-4 ">
@@ -55,25 +65,27 @@ const Enter: NextPage = () => {
           <div>
             {method === "email" ? (
               <Input
-                register={register("email",{required: true})}
+                register={register("email")}
                 name='email'
                 label='Email address'
-                type="email"                
+                type="email"  
+                required              
               />             
             ) : null}
             {method === "phone" ? (
               <Input
-                register={register("phone", {required: true})}
+                register={register("phone")}
                 name='phone'
                 label='Phone number'
                 type="number"
-                kind='phone'                
+                kind='phone'   
+                required             
               />
             ) : null}
           </div>         
           <div className='mt-6'>
             {method === "email" ? (<Button text= "Get login link" />) : null}
-            {method === "phone" ? (<Button text= "Get one-time password" />) : null}          
+            {method === "phone" ? (<Button text= {submitting ? "Loading" : "Get one-time password"} />) : null}          
           </div>   
         </form>
         <div className='mt-8'>
