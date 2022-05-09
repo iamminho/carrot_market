@@ -14,9 +14,9 @@ export default function useMutation<T = any>(
     loading: false,
     data: undefined,
     error: undefined,
-  });
-  function mutation(data: any) {
-    setSate((prev) => ({ ...prev, loading: true }));
+  });  
+  function mutation(data: any) {    
+    setSate((prev) => ({ ...prev, loading: true }));               
     fetch(url, {
       method: "POST",
       headers: {
