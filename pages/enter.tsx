@@ -13,6 +13,7 @@ interface EnterForm {
 function cls (...classnames: string[]) {
     return classnames.join(" ");
 }
+
 const Enter: NextPage = () => {
   const [enter, {loading, data, error}] = useMutation("/api/users/enter");  
   const [submitting, setSubmitting] = useState(false);
